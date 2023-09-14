@@ -33,84 +33,72 @@ class _LoginViewState extends State<LoginView> {
 
    @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Close the keyboard by unfocusing any active text field
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Login')
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login'),
+      ),
+      body: Column(
+        children: [
+        TextField(
+          controller: _email,
+          enableSuggestions: false,
+          autocorrect: false,
+          keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(
+          hintText: 'Enter Your Email here'
+          ),
         ),
-        body: FutureBuilder(
-          future: Firebase.initializeApp(
-                    options: DefaultFirebaseOptions.currentPlatform,
-                  ),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                return Column(
-                  children: [
-                  TextField(
-                    controller: _email,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                    hintText: 'Enter Your Email here'
-                    ),
-                  ),
-                  TextField(
-                    controller: _password,
-                    obscureText: passwordVisible,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: InputDecoration(
-                      hintText: 'Input Your Password here',
-                      suffixIcon: IconButton(
-                        icon: Icon(passwordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
-                        onPressed: () {
-                          setState(() {
-                            passwordVisible = !passwordVisible;
-                          });
-                        },
-                      )
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      
-            
-                      final email = _email.text;
-                      final password = _password.text;
-                      try {
-                        final userCredential = 
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: email, password: password);
-                      print(userCredential);
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'user-not-found') {
-                          print('Invalid Login Credentials!');
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Invalid Login Credentials!'))
-                          );
-                        } else {
-                          print(e.code);
-                        }
-                      }
-                      },
-                      child: const Text('Login')),
-                  ],
+        TextField(
+          controller: _password,
+          obscureText: passwordVisible,
+          enableSuggestions: false,
+          autocorrect: false,
+          keyboardType: TextInputType.visiblePassword,
+          decoration: InputDecoration(
+            hintText: 'Enter Your Password here',
+            suffixIcon: IconButton(
+              icon: Icon(passwordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  passwordVisible = !passwordVisible;
+                });
+              },
+            )
+          ),
+        ),
+        TextButton(
+          onPressed: () async {
+            final email = _email.text;
+            final password = _password.text;
+            try {
+              final userCredential = 
+              await FirebaseAuth.instance.signInWithEmailAndPassword(
+                email: email, password: password);
+            print(userCredential);
+            } on FirebaseAuthException catch (e) {
+              if (e.code == 'user-not-found') {
+                print('Invalid Login Credentials!');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Invalid Login Credentials!'))
                 );
-              default:
-              return const Text('Loading');
+              } else {
+                print(e.code);
+              }
             }
-          
-          }
-        ), 
+            },
+            child: const Text('Login')),
+
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/register/',
+                  (route) => false
+                  );
+              },
+                child: const Text('New User? Register Here!'))
+        ],
       ),
     ); 
   }
