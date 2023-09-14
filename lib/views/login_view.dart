@@ -4,6 +4,8 @@ import 'dart:developer' as devtools show log;
 
 import 'package:notes/constants/routes.dart';
 
+import '../utilities/show_error_dialog.dart';
+
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -79,15 +81,20 @@ class _LoginViewState extends State<LoginView> {
               Navigator.of(context).pushNamedAndRemoveUntil(
                 notesRoute, (route) => false);
             } on FirebaseAuthException catch (e) {
-              if (e.code == 'user-not-found') {
-                devtools.log('Invalid Login Credentials!');
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Invalid Login Credentials!'))
-                );
+              if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+                await showErrorDialog(
+                  context,
+                  'Invalid Login Credentials');
               } else {
-                devtools.log(e.code);
-              }
+                await showErrorDialog(
+                  context,
+                  'Error: ${e.code}');
             }
+              } catch (e) {
+                await showErrorDialog(
+                  context,
+                  'Error: ${e.toString()}');
+              }
             },
             child: const Text('Login')),
 
@@ -103,6 +110,5 @@ class _LoginViewState extends State<LoginView> {
       ),
     ); 
   }
-
-  
 }
+
