@@ -13,7 +13,8 @@ void main() {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
+        primaryColor: Color.fromARGB(255, 35, 44, 100),
       ),
       home: const HomePage(),
       routes: {

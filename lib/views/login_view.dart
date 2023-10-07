@@ -37,6 +37,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Column(
         children: [
