@@ -32,7 +32,11 @@ class _NotesViewState extends State<NotesView> {
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
-            onPressed: () => Navigator.pushNamed(context, newNoteRoute),
+            onPressed: () {
+              Navigator.pushNamed(
+              context, 
+              createOrUpdateNoteRoute);
+            },
             icon: const Icon(Icons.add)
             ),
           PopupMenuButton<MenuAction>(
@@ -80,6 +84,12 @@ class _NotesViewState extends State<NotesView> {
                         return Card(
                           margin: const EdgeInsets.all(7),
                           child: ListTile(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context, 
+                                  createOrUpdateNoteRoute,
+                                  arguments: allNotes[index]);
+                              },
                               title: Text(
                                 allNotes[index].text,
                                 style: GoogleFonts.roboto(
@@ -96,7 +106,7 @@ class _NotesViewState extends State<NotesView> {
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
                                 ),
-                                maxLines: 4,
+                                maxLines: 3,
                                 softWrap: true,
                                 overflow: TextOverflow.ellipsis,
                               ),
