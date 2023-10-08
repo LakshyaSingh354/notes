@@ -96,7 +96,7 @@ class _NewNoteViewState extends State<NewNoteView> {
               return Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
-                  color: Colors.black38,
+                  color: Color.fromARGB(108, 0, 0, 0),
                   child: TextField(
                     controller: _textEditingController,
                     keyboardType: TextInputType.multiline,
@@ -108,7 +108,6 @@ class _NewNoteViewState extends State<NewNoteView> {
                     decoration: const InputDecoration(
                       hintText: 'Start typing your note...',
                     ),
-                    
                   ),
                 ),
               );
