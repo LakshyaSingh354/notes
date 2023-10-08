@@ -77,17 +77,61 @@ class _NotesViewState extends State<NotesView> {
                     return ListView.builder(
                       itemCount: allNotes.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(
-                            allNotes[index].text,
-                            style: GoogleFonts.roboto(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                        return Card(
+                          margin: const EdgeInsets.all(7),
+                          child: ListTile(
+                              title: Text(
+                                allNotes[index].text,
+                                style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                maxLines: 1,
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              subtitle: Text(
+                                allNotes[index].text,
+                                style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                maxLines: 4,
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              trailing: IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                     builder: ((context) {
+                                       return AlertDialog(
+                                        title: const Text('Delete Note?'),
+                                        content: const Text('Are you sure you want to delete this note?'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('No'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              _notesService.deleteNote(
+                                                id: allNotes[index].id,
+                                              );
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('Yes'),
+                                          ),
+                                        ],
+                                       );
+                                     }
+                                     )
+                                    );
+                                },
+                                 icon: const Icon(Icons.delete)),
                             ),
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                          )
                         );
                       },
                     );
