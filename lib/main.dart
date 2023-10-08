@@ -15,7 +15,7 @@ void main() {
       title: 'Flutter Demo',
       theme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Color.fromARGB(255, 35, 44, 100),
+        primaryColor: const Color.fromARGB(255, 35, 44, 100),
       ),
       home: const HomePage(),
       routes: {

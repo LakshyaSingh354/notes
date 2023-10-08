@@ -37,7 +37,10 @@ class _NotesViewState extends State<NotesView> {
         title: const Text('Your Notes'),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
-          IconButton(onPressed: () => Navigator.pushNamed(context, newNoteRoute), icon: const Icon(Icons.add)),
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, newNoteRoute),
+            icon: const Icon(Icons.add)
+            ),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {
@@ -72,15 +75,17 @@ class _NotesViewState extends State<NotesView> {
             return StreamBuilder(
               stream: _notesService.allNotes, 
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: Text('Waiting for all notes...'),
-                  );
-                } else {
+               switch (snapshot.connectionState) {
+                 case ConnectionState.waiting:
+                 case ConnectionState.active:
+                   return const Center(
+                      child: Text('Waiting for all notes...'),
+                   );
+                 default:
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                }
+               }
               });
           } else {
             return const Center(
