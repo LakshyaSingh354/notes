@@ -36,6 +36,7 @@ class _NotesViewState extends State<NotesView> {
               Navigator.pushNamed(
               context, 
               createOrUpdateNoteRoute);
+              
             },
             icon: const Icon(Icons.add)
             ),
@@ -82,7 +83,7 @@ class _NotesViewState extends State<NotesView> {
                       itemCount: allNotes.length,
                       itemBuilder: (context, index) {
                         return Card(
-                          margin: const EdgeInsets.all(7),
+                          margin: const EdgeInsets.all(10),
                           child: ListTile(
                               onTap: () {
                                 Navigator.pushNamed(
